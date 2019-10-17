@@ -1,6 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
-import { Student } from "./Components/Student";
+import Student from "./Components/Student";
+import Geolocation from "./Components/GeolocationContainer";
 
 const root = document.getElementById("root");
 
