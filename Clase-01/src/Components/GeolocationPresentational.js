@@ -1,6 +1,8 @@
-export const GeolocationPresentational = ({ latitude, longitude }) => (
+import React from "react";
+
+export const GeoPresentational = ({ lat, lng }) => (
   <div>
-    <div>Latitude: {latitude}</div>
-    <div>Longitude: {longitude}</div>
+    <div>{lat}</div>
+    <div>{lng}</div>
   </div>
 );

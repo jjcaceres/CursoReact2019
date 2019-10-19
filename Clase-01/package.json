@@ -4,7 +4,8 @@
   "main": "index.js",
   "dependencies": {
     "react": "^16.10.2",
-    "react-dom": "^16.10.2"
+    "react-dom": "^16.10.2",
+    "vanilla-tilt": "^1.7.0"
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.4"

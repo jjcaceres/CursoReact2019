@@ -1,29 +1,49 @@
-import React from "react";
-import { GeolocationPresentational } from "./GeolocationPresentational";
-
-export class GeolocationContainer extends React.Component {
+import React, { Component } from "react";
+import { GeoPresentational } from "./GeolocationPresentational";
+export class GeoContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      latitude: null,
-      longitude: null
+      lat: null,
+      lng: null,
+      country: "Perú",
+      isLoading: false
     };
-    this.handleSuccess = this.handleSuccess.bind(this);
-  }
-  componentDidMount() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(this.handleSuccess);
-    }
+    this.handlePosition = this.handlePosition.bind(this);
   }
 
-  handleSuccess({ coords }) {
+  componentWillMount() {
     this.setState({
-      latitude: coords.latitude,
-      longitude: coords.longitude
+      isLoading: true
     });
   }
 
+  componentDidMount() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(this.handlePosition);
+    }
+  }
+
+  handlePosition({ coords }) {
+    const { latitude, longitude } = coords;
+
+    setTimeout(() => {
+      this.setState({
+        lat: latitude,
+        lng: longitude,
+        isLoading: false
+      });
+    }, 2000);
+  }
   render() {
-    return <GeolocationPresentational {...this.state} />;
+    const { lat, lng, isLoading } = this.state;
+    return isLoading ? (
+      <span>Loading...</span>
+    ) : (
+      <div>
+        <div>{this.state.country}</div>
+        <GeoPresentational lat={lat} lng={lng} />
+      </div>
+    );
   }
 }

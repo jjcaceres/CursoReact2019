@@ -31985,7 +31985,7 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"Components/Student.js":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"components/Student.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32008,34 +32008,40 @@ var _default = function _default(_ref) {
 };
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"Components/GeolocationPresentational.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"components/GeolocationPresentational.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.GeolocationPresentational = void 0;
-
-var GeolocationPresentational = function GeolocationPresentational(_ref) {
-  var latitude = _ref.latitude,
-      longitude = _ref.longitude;
-  return React.createElement("div", null, React.createElement("div", null, "Latitude: ", latitude), React.createElement("div", null, "Longitude: ", longitude));
-};
-
-exports.GeolocationPresentational = GeolocationPresentational;
-},{}],"Components/GeolocationContainer.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.GeolocationContainer = void 0;
+exports.GeoPresentational = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var GeoPresentational = function GeoPresentational(_ref) {
+  var lat = _ref.lat,
+      lng = _ref.lng;
+  return _react.default.createElement("div", null, _react.default.createElement("div", null, lat), _react.default.createElement("div", null, lng));
+};
+
+exports.GeoPresentational = GeoPresentational;
+},{"react":"../node_modules/react/index.js"}],"components/GeolocationContainer.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.GeoContainer = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
 var _GeolocationPresentational = require("./GeolocationPresentational");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -32055,76 +32061,99 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var GeolocationContainer =
+var GeoContainer =
 /*#__PURE__*/
-function (_React$Component) {
-  _inherits(GeolocationContainer, _React$Component);
+function (_Component) {
+  _inherits(GeoContainer, _Component);
 
-  function GeolocationContainer(props) {
+  function GeoContainer(props) {
     var _this;
 
-    _classCallCheck(this, GeolocationContainer);
+    _classCallCheck(this, GeoContainer);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(GeolocationContainer).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(GeoContainer).call(this, props));
     _this.state = {
-      latitude: null,
-      longitude: null
+      lat: null,
+      lng: null,
+      country: "Perú",
+      isLoading: false
     };
-    _this.handleSuccess = _this.handleSuccess.bind(_assertThisInitialized(_this));
+    _this.handlePosition = _this.handlePosition.bind(_assertThisInitialized(_this));
     return _this;
   }
 
-  _createClass(GeolocationContainer, [{
+  _createClass(GeoContainer, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      this.setState({
+        isLoading: true
+      });
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(this.handleSuccess);
+        navigator.geolocation.getCurrentPosition(this.handlePosition);
       }
     }
   }, {
-    key: "handleSuccess",
-    value: function handleSuccess(_ref) {
+    key: "handlePosition",
+    value: function handlePosition(_ref) {
+      var _this2 = this;
+
       var coords = _ref.coords;
-      this.setState({
-        latitude: coords.latitude,
-        longitude: coords.longitude
-      });
+      var latitude = coords.latitude,
+          longitude = coords.longitude;
+      setTimeout(function () {
+        _this2.setState({
+          lat: latitude,
+          lng: longitude,
+          isLoading: false
+        });
+      }, 2000);
     }
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement(_GeolocationPresentational.GeolocationPresentational, this.state);
+      var _this$state = this.state,
+          lat = _this$state.lat,
+          lng = _this$state.lng,
+          isLoading = _this$state.isLoading;
+      return isLoading ? _react.default.createElement("span", null, "Loading...") : _react.default.createElement("div", null, _react.default.createElement("div", null, this.state.country), _react.default.createElement(_GeolocationPresentational.GeoPresentational, {
+        lat: lat,
+        lng: lng
+      }));
     }
   }]);
 
-  return GeolocationContainer;
-}(_react.default.Component);
+  return GeoContainer;
+}(_react.Component);
 
-exports.GeolocationContainer = GeolocationContainer;
-},{"react":"../node_modules/react/index.js","./GeolocationPresentational":"Components/GeolocationPresentational.js"}],"App.js":[function(require,module,exports) {
+exports.GeoContainer = GeoContainer;
+},{"react":"../node_modules/react/index.js","./GeolocationPresentational":"components/GeolocationPresentational.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
 
 var _reactDom = require("react-dom");
 
-var _Student = _interopRequireDefault(require("./Components/Student"));
+var _Student = _interopRequireDefault(require("./components/Student"));
 
-var _GeolocationContainer = _interopRequireDefault(require("./Components/GeolocationContainer"));
+var _GeolocationContainer = require("./components/GeolocationContainer");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var root = document.getElementById("root");
-
 var Title = function Title() {
   return _react.default.createElement("h1", {
-    id: "hello-word",
+    id: "hello-world",
     className: "app-title"
-  }, "Hello WORLD");
+  }, "Hello World");
 };
 
 var App = function App() {
-  return _react.default.createElement("div", null, _react.default.createElement(Title, null), _react.default.createElement(_Student.default, {
+  return _react.default.createElement("div", null, _react.default.createElement(Title, null), _react.default.createElement("div", {
+    className: "app-wrapper"
+  }, _react.default.createElement(_Student.default, {
     name: "Paul Diaz",
     company: "Cignium Technologies",
     background: "Software Engineer"
@@ -32132,14 +32161,16 @@ var App = function App() {
     name: "Luis Ruiz",
     company: "Freelance"
   }), _react.default.createElement(_Student.default, {
-    name: "Andres Savedra",
+    name: "Andres Saavedra",
     company: "Cibertec",
-    background: "otro"
-  }));
+    background: "Estudiante"
+  })), _react.default.createElement("div", {
+    className: "app-wrapper"
+  }, _react.default.createElement(_GeolocationContainer.GeoContainer, null)));
 };
 
-(0, _reactDom.render)(_react.default.createElement(App, null), root);
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./Components/Student":"Components/Student.js","./Components/GeolocationContainer":"Components/GeolocationContainer.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+(0, _reactDom.render)(_react.default.createElement(App), document.getElementById("root"));
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/Student":"components/Student.js","./components/GeolocationContainer":"components/GeolocationContainer.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -32167,7 +32198,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49412" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50293" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
