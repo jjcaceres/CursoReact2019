@@ -6,8 +6,10 @@ const Student = ({
   company = "Area51"
 }) => (
   <div className="student">
-    <h2>{name}</h2>
+    <h3>{name}</h3>
     <p>{background}</p>
-    <span>{background}</span>
+    <span>{company}</span>
   </div>
 );
+
+export default Student;
